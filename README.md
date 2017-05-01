@@ -3,7 +3,7 @@ Realtime Android app that graphs the used RAM memory from a the Node.js script y
 
 # Requirements
 
-- [Android Studio 2.3](https://developer.android.com/studio/index.html)
+- [Android Studio 2.3.1](https://developer.android.com/studio/index.html)
 - MinSdkVersion: 15
 - TargetSdkVersion: 25
 - buildToolsVersion: 25.0.2
