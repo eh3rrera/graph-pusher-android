@@ -11,7 +11,8 @@ Realtime Android app that graphs the used RAM memory from a the Node.js script y
 
 # Installation
 1. Clone this repository and open it with Android Studio.
-.......l.3. Enter your Pusher app information in `com/pusher/memorygraph/MainActivity.java`.
+2. Create a [Pusher app](https://dashboard.pusher.com).
+3. Enter your Pusher app information in `com/pusher/memorygraph/MainActivity.java`.
 4. Build the project and run it.
 5. Execute the Node.js process (with the same Pusher app information) and see how the graph is updated in realtime.
 
