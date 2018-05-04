@@ -3,6 +3,7 @@ package com.pusher.memorygraph;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -18,6 +19,7 @@ import com.google.gson.Gson;
 import com.pusher.client.Pusher;
 import com.pusher.client.PusherOptions;
 import com.pusher.client.channel.Channel;
+import com.pusher.client.channel.ChannelEventListener;
 import com.pusher.client.channel.SubscriptionEventListener;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,8 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private LineChart mChart;
 
     private Pusher pusher;
-    private static final String PUSHER_APP_KEY = "<INSERT_YOUR_PUSHER_APP_KEY>";
-    private static final String PUSHER_APP_CLUSTER = "<INSERT_YOUR_PUSHER_APP_CLUSTER>";
+
+    private static final String PUSHER_APP_KEY = "f710672324a402ed48a0";
+    private static final String PUSHER_APP_CLUSTER = "us2";
     private static final String CHANNEL_NAME = "stats";
     private static final String EVENT_NAME = "new_memory_stat";
 
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         PusherOptions options = new PusherOptions();
         options.setCluster(PUSHER_APP_CLUSTER);
-        pusher = new Pusher(PUSHER_APP_KEY);
+        pusher = new Pusher(PUSHER_APP_KEY, options);
         Channel channel = pusher.subscribe(CHANNEL_NAME);
 
         SubscriptionEventListener eventListener = new SubscriptionEventListener() {
@@ -66,9 +69,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         channel.bind(EVENT_NAME, eventListener);
-
         pusher.connect();
-
     }
 
     private void setupChart() {
@@ -107,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
         ll.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
         ll.setTextSize(10f);
         ll.setTextColor(Color.WHITE);
-
         // reset all limit lines to avoid overlapping lines
         leftAxis.removeAllLimitLines();
         leftAxis.addLimitLine(ll);
@@ -130,6 +130,21 @@ public class MainActivity extends AppCompatActivity {
         // modify the legend ...
         l.setForm(Legend.LegendForm.CIRCLE);
         l.setTextColor(Color.WHITE);
+    }
+
+    private LineDataSet createSet() {
+        LineDataSet set = new LineDataSet(null, "Memory Data");
+        set.setAxisDependency(YAxis.AxisDependency.LEFT);
+        set.setColors(ColorTemplate.VORDIPLOM_COLORS[0]);
+        set.setCircleColor(Color.WHITE);
+        set.setLineWidth(2f);
+        set.setCircleRadius(4f);
+        set.setValueTextColor(Color.WHITE);
+        set.setValueTextSize(10f);
+        // To show values of each point
+        set.setDrawValues(true);
+
+        return set;
     }
 
     private void addEntry(Stat stat) {
@@ -155,22 +170,6 @@ public class MainActivity extends AppCompatActivity {
             // move to the latest entry
             mChart.moveViewToX(data.getEntryCount());
         }
-    }
-
-    private LineDataSet createSet() {
-        LineDataSet set = new LineDataSet(null, "Memory Data");
-        set.setAxisDependency(YAxis.AxisDependency.LEFT);
-        set.setColors(ColorTemplate.VORDIPLOM_COLORS[0]);
-        set.setCircleColor(Color.WHITE);
-        set.setLineWidth(2f);
-        set.setCircleRadius(4f);
-
-        set.setValueTextColor(Color.WHITE);
-        set.setValueTextSize(10f);
-        // To show values of each point
-        set.setDrawValues(true);
-
-        return set;
     }
 
     @Override
