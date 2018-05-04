@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Pusher pusher;
 
-    private static final String PUSHER_APP_KEY = "f710672324a402ed48a0";
-    private static final String PUSHER_APP_CLUSTER = "us2";
+    private static final String PUSHER_APP_KEY = "PUSHER_APP_KEY";
+    private static final String PUSHER_APP_CLUSTER = "PUSHER_APP_CLUSTER";
     private static final String CHANNEL_NAME = "stats";
     private static final String EVENT_NAME = "new_memory_stat";
 
